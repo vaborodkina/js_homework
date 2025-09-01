@@ -1,1 +1,1 @@
-# js_homework
+# Repository for the JS home works
