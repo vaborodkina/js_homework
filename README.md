@@ -1,1 +1,1 @@
-# Repository for the JS home works
+# Repository for the JS homework tasks
