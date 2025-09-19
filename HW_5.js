@@ -45,8 +45,6 @@ services["break a window"] = "200 UAH";
 services["manicure"] = "350 UAH";
 services["design on one nail"] = "7.53 UAH";
 services["make up"] = "199.99 UAH";
-services["make up"] = "0.5 UAH";
-services["make up"] = "10987654 UAH";
 services.price();
 services.minPrice();
 services.maxPrice();
