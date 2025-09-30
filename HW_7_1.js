@@ -17,5 +17,8 @@ var arr = [
 ];
 const regex = /^[A-Za-z0-9]+(\.[A-Za-z0-9]+)?@(gmail|yahoo)\.com$/;
 
-const trustedMailsArray = arr.filter((arr) => arr.email.match(regex));
+const trustedMailsArray = arr
+  .filter((arr) => arr.email.match(regex))
+  .map((arr) => arr.email);
+
 console.log(trustedMailsArray);
