@@ -1,0 +1,1253 @@
+{
+	"info": {
+		"_postman_id": "a3e4d7e6-c492-4500-8895-2de4c6faae41",
+		"name": "QA_Auto_Borodkina_HW_15.1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18764554"
+	},
+	"item": [
+		{
+			"name": "Negative tests",
+			"item": [
+				{
+					"name": "NAME VALIDATION",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const email = (Math.random() * 10000000).toFixed(0) + '@test.com'\r",
+									"const newPwd = \"{{newPwd}}\"\r",
+									"const name = \"{{name}}\"\r",
+									"pm.collectionVariables.set('email', email)\r",
+									"pm.collectionVariables.set('newPwd', newPwd)\r",
+									"\r",
+									"const data = [\r",
+									"{\r",
+									"    testCaseName: \"Empty user name\",\r",
+									"    testData: \"\",\r",
+									"    expectedResult: {\r",
+									"    status: \"error\",\r",
+									"    message: \"\\\"name\\\" is not allowed to be empty\"\r",
+									"    }\r",
+									"},\r",
+									"{\r",
+									"    testCaseName: \"Invalid user name (cyrillic)\",\r",
+									"    testData: \"Алан\",\r",
+									"    expectedResult: {\r",
+									"    status: \"error\",\r",
+									"    message: \"Name is invalid\"\r",
+									"    }\r",
+									"},\r",
+									"{\r",
+									"    testCaseName: \"Short user name\",\r",
+									"    testData: \"A\",\r",
+									"    expectedResult: {\r",
+									"    status: \"error\",\r",
+									"    message: \"Name has to be from 2 to 20 characters long\"\r",
+									"    }\r",
+									"},\r",
+									"]\r",
+									"\r",
+									"let currentIter = parseInt(pm.collectionVariables.get(\"currentIter\")) || 0;\r",
+									"\r",
+									"if (currentIter >= data.length) {\r",
+									"    pm.execution.setNextRequest(null);\r",
+									"    return;\r",
+									"}\r",
+									"\r",
+									"pm.collectionVariables.set(\"name\", data[currentIter].testData);\r",
+									"pm.collectionVariables.set(\"expectedResult\", JSON.stringify(data[currentIter].expectedResult));\r",
+									"pm.collectionVariables.set(\"length\", data.length); \r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"let currentIter = parseInt(pm.collectionVariables.get(\"currentIter\") || 0);\r",
+									"let length = parseInt(pm.collectionVariables.get(\"length\"));\r",
+									"let expected = JSON.parse(pm.collectionVariables.get(\"expectedResult\"));\r",
+									"\r",
+									"pm.test(\"Create a new user with invalid data\", function () {\r",
+									"        pm.expect(jsonData.status).to.eql(expected.status);\r",
+									"        pm.expect(jsonData.message).to.eql(expected.message);\r",
+									"});\r",
+									"    pm.collectionVariables.set(\"currentIter\", currentIter + 1);\r",
+									"    if (pm.collectionVariables.get(\"currentIter\") < pm.collectionVariables.get(\"length\")) {\r",
+									"        pm.execution.setNextRequest(pm.info.requestName);\r",
+									"} else{\r",
+									"        pm.collectionVariables.set(\"currentIter\", 0);\r",
+									"        pm.execution.setNextRequest(\"Invalid email\");\r",
+									" \r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"{{name}}\",\r\n  \"lastName\": \"{{$randomLastName}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{pwd}}\",\r\n  \"repeatPassword\": \"{{pwd}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/signup",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid email",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const email = (Math.random() * 10000000).toFixed(0) + '@test.com'\r",
+									"const newPwd = \"{{newPwd}}\"\r",
+									"pm.collectionVariables.set('email', email)\r",
+									"pm.collectionVariables.set('newPwd', newPwd)\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"const text = \"Email is incorrect\"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Invalid email message check\", function () {\r",
+									"\r",
+									"    pm.expect(jsonData.message).to.eql(text);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"{{$randomFirstName}}\",\r\n  \"lastName\": \"{{$randomLastName}}\",\r\n  \"email\": \"тест\",\r\n  \"password\": \"{{pwd}}\",\r\n  \"repeatPassword\": \"{{pwd}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/signup",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creation of existed user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const email = (Math.random() * 10000000).toFixed(0) + '@test.com'\r",
+									"const newPwd = \"{{newPwd}}\"\r",
+									"pm.collectionVariables.set('email', email)\r",
+									"pm.collectionVariables.set('newPwd', newPwd)\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"const text = \"User already exists\"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Creation of existed user message check\", function () {\r",
+									"\r",
+									"    pm.expect(jsonData.message).to.eql(text);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"{{$randomFirstName}}\",\r\n  \"lastName\": \"{{$randomLastName}}\",\r\n  \"email\": \"test@gmail.com\",\r\n  \"password\": \"{{pwd}}\",\r\n  \"repeatPassword\": \"{{pwd}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/signup",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Passwords don't match",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const email = (Math.random() * 10000000).toFixed(0) + '@test.com'\r",
+									"const newPwd = \"{{newPwd}}\"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"const text = \"Passwords do not match\"\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Passwords don't match message check\", function () {\r",
+									"\r",
+									"    pm.expect(jsonData.message).to.eql(text);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"{{$randomFirstName}}\",\r\n  \"lastName\": \"{{$randomLastName}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{pwd}}\",\r\n  \"repeatPassword\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/signup",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Wrong password",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const email = (Math.random() * 10000000).toFixed(0) + '@test.com'\r",
+									"const newPwd = \"{{newPwd}}\"\r",
+									"pm.collectionVariables.set('email', email)\r",
+									"pm.collectionVariables.set('newPwd', newPwd)\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"\r",
+									"\r",
+									"const text = \"Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter\"\r",
+									"pm.test(\"Wrong password inserted message check\", function () {\r",
+									"\r",
+									"    pm.expect(jsonData.message).to.eql(text);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"{{$randomFirstName}}\",\r\n  \"lastName\": \"{{$randomLastName}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"1111111111111111111111111111111111111111111111111111111111111111111111111\",\r\n  \"repeatPassword\": \"{{pwd}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/signup",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Wrong password+localization",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const email = (Math.random() * 10000000).toFixed(0) + '@test.com'\r",
+									"const newPwd = \"{{newPwd}}\"\r",
+									"pm.collectionVariables.set('email', email)\r",
+									"pm.collectionVariables.set('newPwd', newPwd)\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Wrong password inserted message check + localization\", function () {\r",
+									"\r",
+									"    pm.expect(jsonData.status).to.eql(\"error\");\r",
+									"    pm.expect(jsonData.message.toLowerCase()).to.include.oneOf([\r",
+									"        \"8 to 15\",\r",
+									"        \"8 до 15\"\r",
+									"    ]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"{{$randomFirstName}}\",\r\n  \"lastName\": \"{{$randomLastName}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"1111111111111111111111111111111111111111111111111111111111111111111111111\",\r\n  \"repeatPassword\": \"{{pwd}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/signup",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PASSWORD VALIDATION",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"let currentIter = parseInt(pm.collectionVariables.get(\"currentIter\") || 0);\r",
+									"let length = parseInt(pm.collectionVariables.get(\"length\"));\r",
+									"let expected = JSON.parse(pm.collectionVariables.get(\"expectedResult\"));\r",
+									"\r",
+									"pm.test(\"Password check\", function () {\r",
+									"        pm.expect(jsonData.status).to.eql(expected.status);\r",
+									"        pm.expect(jsonData.message).to.eql(expected.message);\r",
+									"});\r",
+									"    pm.collectionVariables.set(\"currentIter\", currentIter + 1);\r",
+									"    if (pm.collectionVariables.get(\"currentIter\") < pm.collectionVariables.get(\"length\")) {\r",
+									"        pm.execution.setNextRequest(pm.info.requestName);\r",
+									"} else{\r",
+									"    pm.collectionVariables.set(\"currentIter\", 0);\r",
+									"    pm.execution.setNextRequest(\"JSON schema validation\");\r",
+									" \r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const email = (Math.random() * 10000000).toFixed(0) + '@test.com'\r",
+									"\r",
+									"\r",
+									"pm.collectionVariables.set(\"email\", email);\r",
+									"\r",
+									"const data = [\r",
+									"{\r",
+									"    testCaseName: \"Too short password\",\r",
+									"    testData: \"123\",\r",
+									"    expectedResult: {\r",
+									"    status: \"error\",\r",
+									"    message: \"Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter\"\r",
+									"    }\r",
+									"},\r",
+									"{\r",
+									"    testCaseName: \"Too long password\",\r",
+									"    testData: \"1111111111111111111111111111111111111111111111111111111111111111111111111\",\r",
+									"    expectedResult: {\r",
+									"    status: \"error\",\r",
+									"    message: \"Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter\"\r",
+									"    }\r",
+									"},\r",
+									"{\r",
+									"    testCaseName: \"No integer in the password\",\r",
+									"    testData: \"Qwertyui\",\r",
+									"    expectedResult: {\r",
+									"    status: \"error\",\r",
+									"    message: \"Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter\"\r",
+									"    }\r",
+									"},\r",
+									"{\r",
+									"    testCaseName: \"No capital letter in the password\",\r",
+									"    testData: \"qwertyui1\",\r",
+									"    expectedResult: {\r",
+									"    status: \"error\",\r",
+									"    message: \"Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter\"\r",
+									"    }\r",
+									"},\r",
+									"{\r",
+									"    testCaseName: \"No small letter in the password\",\r",
+									"    testData: \"QWERTYUI1\",\r",
+									"    expectedResult: {\r",
+									"    status: \"error\",\r",
+									"    message: \"Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter\"\r",
+									"    }\r",
+									"},\r",
+									"]\r",
+									"\r",
+									"let currentIter = parseInt(pm.collectionVariables.get(\"currentIter\")) || 0;\r",
+									"\r",
+									"if (currentIter >= data.length) {\r",
+									"    pm.execution.setNextRequest(null);\r",
+									"    return;\r",
+									"}\r",
+									"\r",
+									"\r",
+									"pm.collectionVariables.set(\"testPassword\", data[currentIter].testData);\r",
+									"pm.collectionVariables.set(\"expectedResult\", JSON.stringify(data[currentIter].expectedResult));\r",
+									"pm.collectionVariables.set(\"length\", data.length); \r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"{{$randomFirstName}}\",\r\n  \"lastName\": \"{{$randomLastName}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{testPassword}}\",\r\n  \"repeatPassword\": \"{{testPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/signup",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "JSON schema validation",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const email = (Math.random() * 10000000).toFixed(0) + '@test.com'\r",
+									"const newPwd = \"{{newPwd}}\"\r",
+									"pm.collectionVariables.set('email', email)\r",
+									"pm.collectionVariables.set('newPwd', newPwd)\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"User has been created (status code is 201)\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"const schema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"status\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"data\": {\r",
+									"      \"type\": \"object\",\r",
+									"      \"properties\": {\r",
+									"        \"userId\": {\r",
+									"          \"type\": \"number\"\r",
+									"        },\r",
+									"        \"photoFilename\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"distanceUnits\": {\r",
+									"          \"type\": \"string\"\r",
+									"        },\r",
+									"        \"currency\": {\r",
+									"          \"type\": \"string\"\r",
+									"        }\r",
+									"      },\r",
+									"      \"required\": [\r",
+									"        \"userId\",\r",
+									"        \"photoFilename\",\r",
+									"        \"distanceUnits\",\r",
+									"        \"currency\"\r",
+									"      ]\r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"status\",\r",
+									"    \"data\"\r",
+									"  ]\r",
+									"}\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"{{$randomFirstName}}\",\r\n  \"lastName\": \"{{$randomLastName}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{pwd}}\",\r\n  \"repeatPassword\": \"{{pwd}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/signup",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create a new user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const email = (Math.random() * 10000000).toFixed(0) + '@test.com'\r",
+							"const newPwd = \"{{newPwd}}\"\r",
+							"pm.collectionVariables.set('email', email)\r",
+							"pm.collectionVariables.set('newPwd', newPwd)\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Create a new user with invalid data\", function () {\r",
+							"if (jsonData.data.lenght === 0){\r",
+							"pm.execution.setNextRequest(null);\r",
+							"} else{\r",
+							"    pm.execution.setNextRequest(\"Edit user's profile\")\r",
+							"}\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"{{$randomFirstName}}\",\r\n  \"lastName\": \"{{$randomLastName}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{pwd}}\",\r\n  \"repeatPassword\": \"{{pwd}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/auth/signup",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit user's profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"const name = pm.collectionVariables.get(\"name\");",
+							"",
+							"pm.test(\"Name in response matches expected value\", function () {",
+							"    pm.expect(jsonData.data.name).to.eql(name);",
+							"});",
+							"//pm.collectionVariables.set('userId', jsonData.data.userId);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is equal to the request\", function () {",
+							"    const reqBody = pm.request.body.raw ? JSON.parse(pm.request.body.raw) : {};",
+							"    const resBody = pm.response.json();",
+							"",
+							"    pm.expect(resBody.data.photoFilename).to.eql(reqBody.photoFilename);",
+							"    pm.expect(resBody.data.name).to.eql(reqBody.name);",
+							"    pm.expect(resBody.data.lastName).to.eql(reqBody.lastName);",
+							"    pm.expect(resBody.data.country).to.eql(reqBody.country);",
+							"    ",
+							"    const reqDate = new Date(reqBody.dateBirth);",
+							"    const resDate = new Date(resBody.data.dateBirth);",
+							"",
+							"    pm.expect(resDate.getFullYear()).to.eql(reqDate.getFullYear());",
+							"    pm.expect(resDate.getMonth()).to.eql(reqDate.getMonth());",
+							"    pm.expect(resDate.getDate()).to.eql(reqDate.getDate());",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const email = (Math.random() * 10000000).toFixed(0) + '@test.com'\r",
+							"const name = pm.variables.replaceIn('{{$randomFirstName}}')\r",
+							"pm.collectionVariables.set('name', name)\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"photo\": \"user-1621352948859.jpg\",\r\n  \"photoFilename\": \"user-1621352948859.jpg\",\r\n  \"name\": \"{{name}}\",\r\n  \"lastName\": \"{{$randomLastName}}\",\r\n  \"dateBirth\": \"{{$randomDatePast}}\",\r\n  \"country\": \"{{$randomCountry}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/users/profile",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change user's password",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Prepare variables for password change",
+							"const newPwd = pm.variables.replaceIn('{{pwd}}');",
+							"pm.collectionVariables.set('newPwd', 'Asdffgh123456!');",
+							"// No pm.response reference here; only variable preparation"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"const newPwd = pm.collectionVariables.get(\"newPwd\");",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"userId is same as after creation\", function () {",
+							"    pm.expect(pm.collectionVariables.get(\"userId\")).to.eql(jsonData.data.userId);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"oldPassword\": \"{{pwd}}\",\r\n  \"password\": \"{{newPwd}}\",\r\n  \"repeatPassword\": \"{{newPwd}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/users/password",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users",
+						"password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"const text = \"ok\"\r",
+							"\r",
+							"pm.test(\"Status message check\", function () {\r",
+							"\r",
+							"    pm.expect(jsonData.message).to.eql(text);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/auth/logout",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"User has been logged in (status code is 200)\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"const text = \"ok\"\r",
+							"\r",
+							"pm.test(\"Status message check\", function () {\r",
+							"\r",
+							"    pm.expect(jsonData.status).to.eql(text);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{newPwd}}\",\r\n  \"remember\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/auth/signin",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new car",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"const carId = pm.collectionVariables.set(\"carId\", jsonData.data.id)\r",
+							"\r",
+							"pm.test(\"New car created (status code is 201)\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"is TT model true\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"TT\");\r",
+							"});\r",
+							"\r",
+							"pm.collectionVariables.set(\"mileage\", jsonData.data.mileage)\r",
+							"\r",
+							"\r",
+							"pm.collectionVariables.set(\"mileage\", jsonData.data.mileage);\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"carBrandId\": 1,\r\n  \"carModelId\": 1,\r\n  \"mileage\": 70\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/cars",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"cars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add expenses",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"\r",
+							"pm.test(\"New expenses added (status code is 200)\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Car should not exceed 100 miles before service\", function () {\r",
+							"    const mileage = pm.response.json().data.mileage;\r",
+							"    pm.expect(mileage).to.be.at.most(100);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let mileage = Number(pm.collectionVariables.get(\"mileage\")) || 0;\r",
+							"mileage += 10; \r",
+							"pm.collectionVariables.set(\"mileage\", mileage);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"carId\": {{carId}},\r\n  \"reportedAt\": \"2025-11-09\",\r\n  \"mileage\": {{mileage}},\r\n  \"liters\": 12,\r\n  \"totalCost\": 11,\r\n  \"forceMileage\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/expenses",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"expenses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"\r",
+							"pm.test(\"User successfully deleted (status code is 200)\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/users",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "pwd",
+			"value": ""
+		},
+		{
+			"key": "name",
+			"value": ""
+		},
+		{
+			"key": "newPwd",
+			"value": ""
+		},
+		{
+			"key": "userId",
+			"value": ""
+		},
+		{
+			"key": "carId",
+			"value": ""
+		},
+		{
+			"key": "mileage",
+			"value": ""
+		},
+		{
+			"key": "arrayLenght",
+			"value": ""
+		},
+		{
+			"key": "lenght",
+			"value": ""
+		},
+		{
+			"key": "expectedResult",
+			"value": ""
+		},
+		{
+			"key": "currentIter",
+			"value": ""
+		},
+		{
+			"key": "length",
+			"value": ""
+		},
+		{
+			"key": "data",
+			"value": ""
+		},
+		{
+			"key": "password",
+			"value": ""
+		},
+		{
+			"key": "repeatPassword",
+			"value": ""
+		},
+		{
+			"key": "repeatPwd",
+			"value": ""
+		},
+		{
+			"key": "testPassword",
+			"value": ""
+		}
+	]
+}
