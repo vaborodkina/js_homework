@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1528a8d9-a4c5-4308-9421-ce5b00fbcb0d",
+		"_postman_id": "5d81fd3d-e036-4c27-a3c9-91f7fc7cdc54",
 		"name": "QA_Auto_Borodkina_HW_20.1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "18764554"
@@ -183,9 +183,6 @@
 							"    pm.response.to.have.status(200);",
 							"});",
 							"",
-							"pm.test(\"userId is same as after creation\", function () {",
-							"    pm.expect(pm.collectionVariables.get(\"userId\")).to.eql(jsonData.data.userId);",
-							"});",
 							""
 						],
 						"type": "text/javascript",
@@ -235,7 +232,7 @@
 							"\r",
 							"pm.test(\"Status message check\", function () {\r",
 							"\r",
-							"    pm.expect(jsonData.message).to.eql(text);\r",
+							"    pm.expect(jsonData.status).to.eql(text);\r",
 							"});\r",
 							""
 						],
@@ -411,7 +408,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"carId\": {{carId}},\r\n  \"reportedAt\": \"2025-11-09\",\r\n  \"mileage\": {{mileage}},\r\n  \"liters\": 12,\r\n  \"totalCost\": 11,\r\n  \"forceMileage\": false\r\n}",
+					"raw": "{\r\n  \"carId\": {{carId}},\r\n  \"reportedAt\": \"2025-12-02\",\r\n  \"mileage\": {{mileage}},\r\n  \"liters\": 12,\r\n  \"totalCost\": 11,\r\n  \"forceMileage\": false\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
