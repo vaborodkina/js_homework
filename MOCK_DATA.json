@@ -1,4 +1,10 @@
 [
-  { "baseUrl": "https://qauto.forstudy.space/api" },
-  { "baseUrl": "https://qauto2.forstudy.space/api" }
+  { 
+    "baseUrl": "https://qauto.forstudy.space/api",
+    "pwd": "Qwerty123456!"
+  },
+  { 
+    "baseUrl": "https://qauto2.forstudy.space/api",
+    "pwd": "Qwerty123456!"
+  }
 ]
