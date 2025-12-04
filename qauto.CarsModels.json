@@ -1,0 +1,70 @@
+[{
+  "_id": {
+    "$oid": "6931f0b0330ce800275ef406"
+  },
+  "id": 1,
+  "carBrandId": 1,
+  "title": "TT",
+  "createdAt": {
+    "$date": "2021-05-11T11:13:53.000Z"
+  },
+  "updatedAt": {
+    "$date": "2021-05-11T11:13:53.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6931f0b0330ce800275ef407"
+  },
+  "id": 11,
+  "carBrandId": 3,
+  "title": "Fiesta",
+  "createdAt": {
+    "$date": "2023-12-11T13:13:30.000Z"
+  },
+  "updatedAt": {
+    "$date": "2021-05-11T11:13:53.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6931f0b0330ce800275ef408"
+  },
+  "id": 2,
+  "carBrandId": 1,
+  "title": "R8",
+  "createdAt": {
+    "$date": "2021-05-11T11:13:53.000Z"
+  },
+  "updatedAt": {
+    "$date": "2021-05-11T11:13:53.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6931f0b0330ce800275ef409"
+  },
+  "id": 17,
+  "carBrandId": 4,
+  "title": "Cayenne",
+  "createdAt": {
+    "$date": "2011-05-19T16:10:53.000Z"
+  },
+  "updatedAt": {
+    "$date": "2011-05-19T16:10:53.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6931f0b0330ce800275ef40a"
+  },
+  "id": 22,
+  "carBrandId": 5,
+  "title": "Punto",
+  "createdAt": {
+    "$date": "2021-05-11T11:13:53.000Z"
+  },
+  "updatedAt": {
+    "$date": "2021-05-11T11:13:53.000Z"
+  }
+}]

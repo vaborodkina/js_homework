@@ -1,0 +1,115 @@
+[{
+  "_id": {
+    "$oid": "6931eee9330ce800275ef401"
+  },
+  "id": 5831,
+  "carBrandId": 1,
+  "carModelId": 1,
+  "userId": 3785,
+  "mileage": 1609338,
+  "initialMiliage": 1609338,
+  "updatedMileageAt": {
+    "$date": "2021-12-31T19:31:01.000Z"
+  },
+  "createdAt": {
+    "$date": "2021-12-31T19:31:01.000Z"
+  },
+  "updatedAt": {
+    "$date": "2021-12-31T19:31:01.000Z"
+  },
+  "carCreatedAt": {
+    "$date": "2021-12-31T19:31:01.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6931eee9330ce800275ef402"
+  },
+  "id": 1206,
+  "carBrandId": 1,
+  "carModelId": 2,
+  "userId": 668,
+  "mileage": 519,
+  "initialMiliage": 0,
+  "updatedMileageAt": {
+    "$date": "2021-10-18T17:23:18.000Z"
+  },
+  "createdAt": {
+    "$date": "2021-10-18T16:27:25.000Z"
+  },
+  "updatedAt": {
+    "$date": "2021-10-18T17:37:18.000Z"
+  },
+  "carCreatedAt": {
+    "$date": "2021-10-19T22:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6931eee9330ce800275ef403"
+  },
+  "id": 1553,
+  "carBrandId": 1,
+  "carModelId": 1,
+  "userId": 863,
+  "mileage": 24,
+  "initialMiliage": 0,
+  "updatedMileageAt": {
+    "$date": "2021-10-29T10:49:18.000Z"
+  },
+  "createdAt": {
+    "$date": "2021-10-29T10:47:39.000Z"
+  },
+  "updatedAt": {
+    "$date": "2021-10-29T10:49:18.000Z"
+  },
+  "carCreatedAt": {
+    "$date": "2021-10-27T22:00:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6931eee9330ce800275ef404"
+  },
+  "id": 462287,
+  "carBrandId": 5,
+  "carModelId": 23,
+  "userId": 309344,
+  "mileage": 23,
+  "initialMiliage": 23,
+  "updatedMileageAt": {
+    "$date": "2025-12-04T14:18:19.000Z"
+  },
+  "createdAt": {
+    "$date": "2025-12-04T14:18:19.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-04T14:18:19.000Z"
+  },
+  "carCreatedAt": {
+    "$date": "2025-12-04T14:18:19.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6931eee9330ce800275ef405"
+  },
+  "id": 462309,
+  "carBrandId": 1,
+  "carModelId": 1,
+  "userId": 309377,
+  "mileage": 1000,
+  "initialMiliage": 999,
+  "updatedMileageAt": {
+    "$date": "2025-12-04T18:54:38.000Z"
+  },
+  "createdAt": {
+    "$date": "2025-12-04T18:54:37.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-04T18:54:38.000Z"
+  },
+  "carCreatedAt": {
+    "$date": "2025-12-04T18:54:37.000Z"
+  }
+}]

@@ -1,0 +1,100 @@
+[{
+  "_id": {
+    "$oid": "6931eb2fccaa45602dfbeddd"
+  },
+  "id": 12170,
+  "userId": 12175,
+  "photoFilename": "default-user.png",
+  "name": "John",
+  "lastName": "Dou",
+  "dateBirth": {
+    "$date": "1986-11-20T16:46:39.000Z"
+  },
+  "country": "Ukraine",
+  "createdAt": {
+    "$date": "2022-08-11T14:37:11.000Z"
+  },
+  "updatedAt": {
+    "$date": "2022-08-15T11:42:30.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6931eb2fccaa45602dfbedde"
+  },
+  "id": 125919,
+  "userId": 126046,
+  "photoFilename": "default-user.png",
+  "name": "Irina",
+  "lastName": "Smirnova",
+  "dateBirth": {
+    "$date": "1975-03-17T14:21:05.000Z"
+  },
+  "country": "Ukraine",
+  "createdAt": {
+    "$date": "2024-05-20T10:36:54.000Z"
+  },
+  "updatedAt": {
+    "$date": "2024-05-20T10:37:28.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6931eb2fccaa45602dfbeddf"
+  },
+  "id": 103827,
+  "userId": 104508,
+  "photoFilename": "default-user.png",
+  "name": "Albert",
+  "lastName": "Kassulke",
+  "dateBirth": {
+    "$date": "2015-12-31T23:00:00.000Z"
+  },
+  "country": "Tonga",
+  "createdAt": {
+    "$date": "2024-03-09T15:45:33.000Z"
+  },
+  "updatedAt": {
+    "$date": "2024-03-09T15:45:33.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6931eb2fccaa45602dfbede0"
+  },
+  "id": 302712,
+  "userId": 307469,
+  "photoFilename": "user-1764399688415.jpg",
+  "name": "Janet",
+  "lastName": "Littel",
+  "dateBirth": {
+    "$date": "2015-11-10T14:23:20.000Z"
+  },
+  "country": "Nicaragua",
+  "createdAt": {
+    "$date": "2025-11-29T05:57:35.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-29T06:03:20.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6931eb2fccaa45602dfbede1"
+  },
+  "id": 286617,
+  "userId": 291374,
+  "photoFilename": "default-user.png",
+  "name": "Roman",
+  "lastName": "Baker",
+  "dateBirth": {
+    "$date": "2015-11-09T19:18:22.000Z"
+  },
+  "country": "Finland",
+  "createdAt": {
+    "$date": "2025-11-09T19:18:14.000Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-09T19:18:22.000Z"
+  }
+}]
